@@ -117,6 +117,10 @@ module.exports = function(webpackEnv) {
         loader: require.resolve(preProcessor),
         options: {
           sourceMap: isEnvProduction && shouldUseSourceMap,
+          data: '@import "src/variables.scss";',
+          includePaths: [
+            path.join(__dirname, 'src')
+          ]
         },
       });
     }
