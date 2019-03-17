@@ -1,3 +1,3 @@
 export default {
-  SET_LOADER: 'SET_LOADER'
+  SET_COMPONENT: 'SET_COMPONENT'
 }

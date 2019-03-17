@@ -2,10 +2,10 @@ import createReducer from '../utils/reducerCreator'
 import ActionCommon from '../constant/actionCommon'
 
 const defaultState = {
-  loader: true
+  show: false
 }
 const actionHandlers = {
-  [ActionCommon.SET_LOADER]: (state, payload) => ({ ...state, loader: payload })
+  [ActionCommon.SET_COMPONENT]: (state, payload) => ({ ...state, show: payload })
 }
 
 export default createReducer(actionHandlers, defaultState)
