@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import TestComponents from 'components/TestComponents'
 import logo from './logo.svg'
 import './App.css'
-import TestComponents from './components/Test Components'
 
 import { actionSetComponent } from './action/common'
 
