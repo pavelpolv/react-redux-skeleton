@@ -6,36 +6,37 @@ import './App.css'
 
 import { actionSetComponent } from './action/common'
 
-@connect(state => ({ show: state.common.show }), { actionSetComponent })
+@connect(state => ( { show: state.common.show } ), { actionSetComponent })
 class App extends Component {
-  componentDidMount () {
-    const { actionSetComponent } = this.props
+    componentDidMount() {
+        const { actionSetComponent } = this.props
 
-    actionSetComponent(true, 1000)
-  }
+        actionSetComponent(true, 1000)
+    }
 
-  render () {
-    const { show } = this.props
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo"/>
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {show && <TestComponents/>}
-        </header>
-      </div>
-    )
-  }
+    render() {
+        const { show } = this.props
+
+        return (
+            <div className="App">
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo"/>
+                    <p>
+                        Edit <code>src/App.js</code> and save to reload.
+                    </p>
+                    <a
+                        className="App-link"
+                        href="https://reactjs.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Learn React
+                    </a>
+                    {show && <TestComponents/>}
+                </header>
+            </div>
+        )
+    }
 }
 
 export default App

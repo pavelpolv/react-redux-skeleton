@@ -3,13 +3,13 @@ import React from 'react'
 import './style.scss'
 
 class TestComponents extends React.Component {
-  static propTypes = {}
+    static propTypes = {}
 
-  render () {
-    return (
-      <div className="test-components">Content</div>
-    )
-  }
+    render() {
+        return (
+            <div className="test-components">Content</div>
+        )
+    }
 }
 
 export default TestComponents

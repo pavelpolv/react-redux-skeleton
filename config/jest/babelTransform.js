@@ -5,12 +5,29 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-'use strict';
+'use strict'
 
-const babelJest = require('babel-jest');
+const babelJest = require('babel-jest')
 
 module.exports = babelJest.createTransformer({
-  presets: [require.resolve('babel-preset-react-app')],
-  babelrc: false,
-  configFile: false,
-});
+    presets: [require.resolve('babel-preset-react-app'),
+    ],
+    babelrc: false,
+    configFile: false,
+    plugins: [
+        [
+            'babel-plugin-named-asset-import',
+            {
+                loaderMap: {
+                    svg: {
+                        ReactComponent: '@svgr/webpack?-svgo,+ref![path]',
+                    },
+                },
+            },
+        ],
+        [
+            '@babel/plugin-proposal-decorators',
+            { legacy: true },
+        ],
+    ],
+})

@@ -9,7 +9,7 @@
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.5",
-    "babel-plugin-named-asset-import": "^0.3.1",
+    "babel-plugin-named-asset-import": "^0.3.3",
     "babel-preset-react-app": "^7.0.2",
     "bfj": "6.1.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
@@ -70,6 +70,17 @@
     "build": "./config/bin/react-scripts.js build",
     "test": "./config/bin/react-scripts.js test",
     "eject": "react-scripts eject"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"

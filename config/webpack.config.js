@@ -117,6 +117,7 @@ module.exports = function(webpackEnv) {
                 },
             },
         ].filter(Boolean)
+
         if (preProcessor) {
             loaders.push({
                 loader: require.resolve(preProcessor),
@@ -124,11 +125,12 @@ module.exports = function(webpackEnv) {
                     sourceMap: isEnvProduction && shouldUseSourceMap,
                     data: '@import "src/variables.scss";',
                     includePaths: [
-                        path.join(__dirname, 'src')
-                    ]
+                        path.join(__dirname, 'src'),
+                    ],
                 },
             })
         }
+
         return loaders
     }
 
@@ -179,7 +181,7 @@ module.exports = function(webpackEnv) {
                 : isEnvDevelopment && 'static/js/[name].chunk.js',
             // We inferred the "public path" (such as / or /my-project) from homepage.
             // We use "/" in development.
-            publicPath: publicPath,
+            publicPath,
             // Point sourcemap entries to original disk location (format as URL on Windows)
             devtoolModuleFilenameTemplate: isEnvProduction
                 ? info =>
@@ -400,7 +402,8 @@ module.exports = function(webpackEnv) {
                                     ],
                                     [
                                         '@babel/plugin-proposal-decorators',
-                                        { 'legacy': true }]
+                                        { legacy: true },
+                                    ],
                                 ],
                                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                                 // It enables caching results in ./node_modules/.cache/babel-loader/
