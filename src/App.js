@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import TestComponents from 'components/TestComponents'
 import logo from './logo.svg'
@@ -6,8 +7,13 @@ import './App.css'
 
 import { actionSetComponent } from './action/common'
 
-@connect(state => ( { show: state.common.show } ), { actionSetComponent })
+@connect(state => ({ show: state.common.show }), { actionSetComponent })
 class App extends Component {
+    static propTypes = {
+        actionSetComponent: PropTypes.func,
+        show: PropTypes.bool,
+    }
+
     componentDidMount() {
         const { actionSetComponent } = this.props
 
@@ -20,7 +26,11 @@ class App extends Component {
         return (
             <div className="App">
                 <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
+                    <img
+                        src={logo}
+                        className="App-logo"
+                        alt="logo"
+                    />
                     <p>
                         Edit <code>src/App.js</code> and save to reload.
                     </p>
@@ -32,7 +42,7 @@ class App extends Component {
                     >
                         Learn React
                     </a>
-                    {show && <TestComponents/>}
+                    {show && <TestComponents />}
                 </header>
             </div>
         )
