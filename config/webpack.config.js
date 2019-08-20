@@ -1,4 +1,5 @@
 // @remove-on-eject-begin
+/* eslint-disable no-console, import/order */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
@@ -55,7 +56,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-module.exports = function(webpackEnv) {
+module.exports = function(webpackEnv) { // eslint-disable-line
     const isEnvDevelopment = webpackEnv === 'development'
     const isEnvProduction = webpackEnv === 'production'
 
@@ -139,7 +140,7 @@ module.exports = function(webpackEnv) {
             'development',
         // Stop compilation early in production
         bail: isEnvProduction,
-        devtool: isEnvProduction
+        devtool: isEnvProduction // eslint-disable-line
             ? shouldUseSourceMap
                 ? 'source-map'
                 : false
@@ -189,8 +190,8 @@ module.exports = function(webpackEnv) {
                         .relative(paths.appSrc, info.absoluteResourcePath)
                         .replace(/\\/g, '/')
                 : isEnvDevelopment &&
-                ( info => path.resolve(info.absoluteResourcePath)
-                    .replace(/\\/g, '/') ),
+                (info => path.resolve(info.absoluteResourcePath)
+                    .replace(/\\/g, '/')),
         },
         optimization: {
             minimize: isEnvProduction,
@@ -257,6 +258,7 @@ module.exports = function(webpackEnv) {
             ],
             // Automatically split vendor and commons
             // https://twitter.com/wSokra/status/969633336732905474
+            // eslint-disable-next-line max-len
             // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
             splitChunks: {
                 chunks: 'all',
@@ -617,7 +619,7 @@ module.exports = function(webpackEnv) {
             // having to parse `index.html`.
             new ManifestPlugin({
                 fileName: 'asset-manifest.json',
-                publicPath: publicPath,
+                publicPath,
             }),
             // Moment.js is an extremely popular library that bundles large locale files
             // by default due to how Webpack interprets its code. This is a practical
@@ -632,7 +634,7 @@ module.exports = function(webpackEnv) {
                 clientsClaim: true,
                 exclude: [/\.map$/, /asset-manifest\.json$/],
                 importWorkboxFrom: 'cdn',
-                navigateFallback: publicUrl + '/index.html',
+                navigateFallback: publicUrl + '/index.html', // eslint-disable-line prefer-template
                 navigateFallbackBlacklist: [
                     // Exclude URLs starting with /_, as they're likely an API call
                     new RegExp('^/_'),

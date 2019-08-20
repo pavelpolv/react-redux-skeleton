@@ -26,7 +26,7 @@ function ensureSlash(inputPath, needsSlash) {
         return inputPath.substr(0, inputPath.length - 1)
     } else if (!hasSlash && needsSlash) {
         return `${inputPath}/`
-    } else {
+    } else { // eslint-disable-line no-else-return
         return inputPath
     }
 }
@@ -43,7 +43,8 @@ const getPublicUrl = appPackageJson =>
 function getServedPath(appPackageJson) {
     const publicUrl = getPublicUrl(appPackageJson)
     const servedUrl =
-        envPublicUrl || ( publicUrl ? url.parse(publicUrl).pathname : '/' )
+        envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname : '/')
+
     return ensureSlash(servedUrl, true)
 }
 

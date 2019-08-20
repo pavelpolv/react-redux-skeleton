@@ -16,7 +16,7 @@ process.env.PUBLIC_URL = ''
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
     throw err
 })
 
@@ -25,20 +25,23 @@ require('../env')
 // @remove-on-eject-begin
 // Do the preflight check (only happens before eject).
 const verifyPackageTree = require('./utils/verifyPackageTree')
+
 if (process.env.SKIP_PREFLIGHT_CHECK !== 'true') {
     verifyPackageTree()
 }
 const verifyTypeScriptSetup = require('./utils/verifyTypeScriptSetup')
+
 verifyTypeScriptSetup()
 // @remove-on-eject-end
 
-const jest = require('jest')
-const execSync = require('child_process').execSync
+const jest = require('jest') // eslint-disable-line import/order
+const execSync = require('child_process').execSync // eslint-disable-line import/order, prefer-destructuring
 let argv = process.argv.slice(2)
 
 function isInGitRepository() {
     try {
         execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' })
+
         return true
     } catch (e) {
         return false
@@ -48,6 +51,7 @@ function isInGitRepository() {
 function isInMercurialRepository() {
     try {
         execSync('hg --cwd . root', { stdio: 'ignore' })
+
         return true
     } catch (e) {
         return false
@@ -64,6 +68,7 @@ if (
 ) {
     // https://github.com/facebook/create-react-app/issues/5210
     const hasSourceControl = isInGitRepository() || isInMercurialRepository()
+
     argv.push(hasSourceControl ? '--watch' : '--watchAll')
 }
 
@@ -75,8 +80,8 @@ if (argv.indexOf('--no-watch') !== -1) {
 // @remove-on-eject-begin
 // This is not necessary after eject because we embed config into package.json.
 const createJestConfig = require('./utils/createJestConfig')
-const path = require('path')
-const paths = require('../paths')
+const path = require('path') // eslint-disable-line import/order
+const paths = require('../paths') // eslint-disable-line import/order
 
 argv.push(
     '--config',
@@ -92,7 +97,7 @@ argv.push(
 // This is a very dirty workaround for https://github.com/facebook/jest/issues/5913.
 // We're trying to resolve the environment ourselves because Jest does it incorrectly.
 // TODO: remove this as soon as it's fixed in Jest.
-const resolve = require('resolve')
+const resolve = require('resolve') // eslint-disable-line import/order
 
 function resolveJestDefaultEnvironment(name) {
     const jestDir = path.dirname(
@@ -110,14 +115,16 @@ function resolveJestDefaultEnvironment(name) {
             basedir: jestCLIDir,
         })
     )
+
     return resolve.sync(name, {
         basedir: jestConfigDir,
     })
 }
 
-let cleanArgv = []
+const cleanArgv = []
 let env = 'jsdom'
 let next
+
 do {
     next = argv.shift()
     if (next === '--env') {
@@ -130,6 +137,7 @@ do {
 } while (argv.length > 0)
 argv = cleanArgv
 let resolvedEnv
+
 try {
     resolvedEnv = resolveJestDefaultEnvironment(`jest-environment-${env}`)
 } catch (e) {
@@ -143,6 +151,7 @@ if (!resolvedEnv) {
     }
 }
 const testEnvironment = resolvedEnv || env
+
 argv.push('--env', testEnvironment)
 // @remove-on-eject-end
 jest.run(argv)

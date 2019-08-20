@@ -1,4 +1,5 @@
 // @remove-file-on-eject
+/* eslint-disable no-console, import/order */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
@@ -10,13 +11,13 @@
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
     throw err
 })
 
 const fs = require('fs-extra')
 const path = require('path')
-const execSync = require('child_process').execSync
+const execSync = require('child_process').execSync // eslint-disable-line prefer-destructuring
 const chalk = require('react-dev-utils/chalk')
 const paths = require('../paths')
 const createJestConfig = require('./utils/createJestConfig')
@@ -24,14 +25,14 @@ const inquirer = require('react-dev-utils/inquirer')
 const spawnSync = require('react-dev-utils/crossSpawn').sync
 const os = require('os')
 
-const green = chalk.green
-const cyan = chalk.cyan
+const { green, cyan } = chalk
 
 function getGitStatus() {
     try {
-        let stdout = execSync(`git status --porcelain`, {
+        const stdout = execSync('git status --porcelain', {
             stdio: ['pipe', 'pipe', 'ignore'],
         }).toString()
+
         return stdout.trim()
     } catch (e) {
         return ''
@@ -53,16 +54,18 @@ inquirer
         message: 'Are you sure you want to eject? This action is permanent.',
         default: false,
     })
-    .then(answer => {
+    .then((answer) => {
         if (!answer.shouldEject) {
             console.log(cyan('Close one! Eject aborted.'))
+
             return
         }
 
         const gitStatus = getGitStatus()
+
         if (gitStatus) {
             console.error(
-                chalk.red(
+                chalk.red( // eslint-disable-line prefer-template
                     'This git repository has untracked files or uncommitted changes:'
                 ) +
                 '\n\n' +
@@ -80,8 +83,7 @@ inquirer
 
         console.log('Ejecting...')
 
-        const ownPath = paths.ownPath
-        const appPath = paths.appPath
+        const { ownPath, appPath } = paths
 
         function verifyAbsent(file) {
             if (fs.existsSync(path.join(appPath, file))) {
@@ -123,11 +125,11 @@ inquirer
         console.log()
         console.log(cyan(`Copying files into ${appPath}`))
 
-        folders.forEach(folder => {
+        folders.forEach((folder) => {
             fs.mkdirSync(path.join(appPath, folder))
         })
 
-        files.forEach(file => {
+        files.forEach((file) => {
             let content = fs.readFileSync(file, 'utf8')
 
             // Skip flagged files
@@ -135,7 +137,7 @@ inquirer
                 return
             }
             content =
-                content
+                content // eslint-disable-line prefer-template
                 // Remove dead code from .js files on eject
                     .replace(
                         /\/\/ @remove-on-eject-begin([\s\S]*?)\/\/ @remove-on-eject-end/gm,
@@ -158,6 +160,7 @@ inquirer
 
         console.log(cyan('Updating the dependencies'))
         const ownPackageName = ownPackage.name
+
         if (appPackage.devDependencies) {
             // We used to put react-scripts in devDependencies
             if (appPackage.devDependencies[ownPackageName]) {
@@ -171,7 +174,7 @@ inquirer
             console.log(`  Removing ${cyan(ownPackageName)} from dependencies`)
             delete appPackage.dependencies[ownPackageName]
         }
-        Object.keys(ownPackage.dependencies).forEach(key => {
+        Object.keys(ownPackage.dependencies).forEach((key) => {
             // For some reason optionalDependencies end up in dependencies after install
             if (ownPackage.optionalDependencies[key]) {
                 return
@@ -181,19 +184,21 @@ inquirer
         })
         // Sort the deps
         const unsortedDependencies = appPackage.dependencies
+
         appPackage.dependencies = {}
         Object.keys(unsortedDependencies)
             .sort()
-            .forEach(key => {
+            .forEach((key) => {
                 appPackage.dependencies[key] = unsortedDependencies[key]
             })
         console.log()
 
         console.log(cyan('Updating the scripts'))
-        delete appPackage.scripts['eject']
-        Object.keys(appPackage.scripts).forEach(key => {
-            Object.keys(ownPackage.bin).forEach(binKey => {
-                const regex = new RegExp(binKey + ' (\\w+)', 'g')
+        delete appPackage.scripts['eject'] // eslint-disable-line dot-notation
+        Object.keys(appPackage.scripts).forEach((key) => {
+            Object.keys(ownPackage.bin).forEach((binKey) => {
+                const regex = new RegExp(binKey + ' (\\w+)', 'g') // eslint-disable-line prefer-template
+
                 if (!regex.test(appPackage.scripts[key])) {
                     return
                 }
@@ -254,7 +259,7 @@ inquirer
 
                 fs.writeFileSync(
                     paths.appTypeDeclarations,
-                    ( ownContent + os.EOL + content ).trim() + os.EOL
+                    (ownContent + os.EOL + content).trim() + os.EOL
                 )
             } catch (e) {
                 // It's not essential that this succeeds, the TypeScript user should
@@ -266,7 +271,7 @@ inquirer
         if (ownPath.indexOf(appPath) === 0) {
             try {
                 // remove react-scripts and react-scripts binaries from app node_modules
-                Object.keys(ownPackage.bin).forEach(binKey => {
+                Object.keys(ownPackage.bin).forEach((binKey) => {
                     fs.removeSync(
                         path.join(appPath, 'node_modules', '.bin', binKey))
                 })
@@ -284,6 +289,7 @@ inquirer
                 'react-scripts.cmd'
             )
             let windowsCmdFileContent
+
             if (process.platform === 'win32') {
                 // https://github.com/facebook/create-react-app/pull/3806#issuecomment-357781035
                 // Yarn is diligent about cleaning up after itself, but this causes the react-scripts.cmd file

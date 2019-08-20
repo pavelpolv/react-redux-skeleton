@@ -1,4 +1,5 @@
 // @remove-on-eject-begin
+/* eslint-disable no-console, import/order */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
@@ -47,9 +48,7 @@ const printHostingInstructions = require(
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter')
 const printBuildError = require('react-dev-utils/printBuildError')
 
-const measureFileSizesBeforeBuild =
-    FileSizeReporter.measureFileSizesBeforeBuild
-const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild
+const { measureFileSizesBeforeBuild, printFileSizesAfterBuild } = FileSizeReporter
 const useYarn = fs.existsSync(paths.yarnLockFile)
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.
@@ -96,12 +95,12 @@ checkBrowsers(paths.appPath, isInteractive)
                 console.log(chalk.yellow('Compiled with warnings.\n'))
                 console.log(warnings.join('\n\n'))
                 console.log(
-                    '\nSearch for the ' +
+                    '\nSearch for the ' + // eslint-disable-line prefer-template
                     chalk.underline(chalk.yellow('keywords')) +
                     ' to learn more about each warning.'
                 )
                 console.log(
-                    'To ignore, add ' +
+                    'To ignore, add ' + // eslint-disable-line prefer-template
                     chalk.cyan('// eslint-disable-next-line') +
                     ' to the line before.\n'
                 )
@@ -120,8 +119,8 @@ checkBrowsers(paths.appPath, isInteractive)
             console.log()
 
             const appPackage = require(paths.appPackageJson)
-            const publicUrl = paths.publicUrl
-            const publicPath = config.output.publicPath
+            const  { publicUrl } = paths
+            const { publicPath } = config.output
             const buildFolder = path.relative(process.cwd(), paths.appBuild)
 
             printHostingInstructions(
@@ -138,7 +137,7 @@ checkBrowsers(paths.appPath, isInteractive)
             process.exit(1)
         }
     )
-    .catch(err => {
+    .catch((err) => {
         if (err && err.message) {
             console.log(err.message)
         }
@@ -149,7 +148,7 @@ checkBrowsers(paths.appPath, isInteractive)
 function build(previousFileSizes) {
     console.log('Creating an optimized production build...')
 
-    let compiler = webpack(config)
+    const compiler = webpack(config)
 
     return new Promise((resolve, reject) => {
         compiler.run((err, stats) => {
@@ -189,6 +188,7 @@ function build(previousFileSizes) {
                         'Most CI servers set it automatically.\n'
                     )
                 )
+
                 return reject(new Error(messages.warnings.join('\n\n')))
             }
 
@@ -200,7 +200,7 @@ function build(previousFileSizes) {
 
             if (writeStatsJson) {
                 return bfj
-                    .write(paths.appBuild + '/bundle-stats.json',
+                    .write(paths.appBuild + '/bundle-stats.json', // eslint-disable-line prefer-template
                         stats.toJson())
                     .then(() => resolve(resolveArgs))
                     .catch(error => reject(new Error(error)))

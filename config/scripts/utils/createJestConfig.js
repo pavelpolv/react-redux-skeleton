@@ -89,13 +89,14 @@ module.exports = (resolve, rootDir, isEjecting) => {
     ]
 
     if (overrides) {
-        supportedKeys.forEach(key => {
+        supportedKeys.forEach((key) => {
             if (overrides.hasOwnProperty(key)) {
                 config[key] = overrides[key]
                 delete overrides[key]
             }
         })
         const unsupportedKeys = Object.keys(overrides)
+
         if (unsupportedKeys.length) {
             const isOverridingSetupFile =
                 unsupportedKeys.indexOf('setupTestFrameworkScriptFile') > -1
@@ -103,7 +104,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
             if (isOverridingSetupFile) {
                 console.error(
                     chalk.red(
-                        'We detected ' +
+                        'We detected ' + // eslint-disable-line prefer-template
                         chalk.bold('setupTestFrameworkScriptFile') +
                         ' in your package.json.\n\n' +
                         'Remove it from Jest configuration, and put the initialization code in ' +
@@ -114,16 +115,16 @@ module.exports = (resolve, rootDir, isEjecting) => {
             } else {
                 console.error(
                     chalk.red(
-                        '\nOut of the box, Create React App only supports overriding ' +
+                        '\nOut of the box, Create React App only supports overriding ' + // eslint-disable-line prefer-template, max-len
                         'these Jest options:\n\n' +
                         supportedKeys
-                            .map(key => chalk.bold('  \u2022 ' + key))
+                            .map(key => chalk.bold('  \u2022 ' + key)) // eslint-disable-line prefer-template
                             .join('\n') +
                         '.\n\n' +
                         'These options in your package.json Jest configuration ' +
                         'are not currently supported by Create React App:\n\n' +
                         unsupportedKeys
-                            .map(key => chalk.bold('  \u2022 ' + key))
+                            .map(key => chalk.bold('  \u2022 ' + key)) // eslint-disable-line prefer-template
                             .join('\n') +
                         '\n\nIf you wish to override other Jest options, you need to ' +
                         'eject from the default setup. You can do so by running ' +

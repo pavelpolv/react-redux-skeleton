@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console, import/order */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
@@ -11,7 +12,7 @@
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
     throw err
 })
 
@@ -32,7 +33,7 @@ switch (script) {
         const result = spawn.sync(
             'node',
             nodeArgs
-                .concat(require.resolve('../scripts/' + script))
+                .concat(require.resolve('../scripts/' + script)) // eslint-disable-line prefer-template
                 .concat(args.slice(scriptIndex + 1)),
             { stdio: 'inherit' }
         )
@@ -57,7 +58,7 @@ switch (script) {
         break
     }
     default:
-        console.log('Unknown script "' + script + '".')
+        console.log('Unknown script "' + script + '".') // eslint-disable-line prefer-template
         console.log('Perhaps you need to update react-scripts?')
         console.log(
             'See: https://facebook.github.io/create-react-app/docs/updating-to-new-releases'
